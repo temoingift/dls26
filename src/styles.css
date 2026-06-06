@@ -1,0 +1,321 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap");
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-navy: var(--navy);
+  --color-surface: var(--surface);
+}
+
+:root {
+  --radius: 0.5rem;
+  /* Vibrant esports gaming theme - deeper darks, brighter accents */
+  --background: oklch(0.10 0.08 265);
+  --foreground: oklch(0.98 0.02 95);
+  --surface: oklch(0.13 0.075 265);
+  --card: oklch(0.15 0.08 265);
+  --card-foreground: oklch(0.98 0.02 95);
+  --popover: oklch(0.15 0.08 265);
+  --popover-foreground: oklch(0.98 0.02 95);
+  --navy: oklch(0.08 0.06 265);
+  --gold: oklch(0.90 0.22 85);
+  --gold-foreground: oklch(0.10 0.02 260);
+  --primary: oklch(0.75 0.28 250);
+  --primary-foreground: oklch(0.95 0.01 95);
+  --secondary: oklch(0.55 0.28 300);
+  --secondary-foreground: oklch(0.96 0.01 90);
+  --muted: oklch(0.18 0.06 265);
+  --muted-foreground: oklch(0.75 0.04 95);
+  --accent: oklch(0.82 0.28 290);
+  --accent-foreground: oklch(0.96 0.01 90);
+  --destructive: oklch(0.65 0.28 30);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(0.25 0.08 265);
+  --input: oklch(0.2 0.07 265);
+  --ring: oklch(0.90 0.22 85);
+  --chart-1: oklch(0.70 0.28 250);
+  --chart-2: oklch(0.65 0.28 300);
+  --chart-3: oklch(0.60 0.28 200);
+  --chart-4: oklch(0.75 0.28 85);
+  --chart-5: oklch(0.80 0.28 120);
+  --sidebar: oklch(0.12 0.07 265);
+  --sidebar-foreground: oklch(0.98 0.02 95);
+  --sidebar-primary: oklch(0.90 0.22 85);
+  --sidebar-primary-foreground: oklch(0.10 0.02 260);
+  --sidebar-accent: oklch(0.25 0.08 265);
+  --sidebar-accent-foreground: oklch(0.98 0.02 95);
+  --sidebar-border: oklch(0.25 0.08 265);
+  --sidebar-ring: oklch(0.90 0.22 85);
+}
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --card: oklch(0.208 0.042 265.755);
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --popover: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.929 0.013 255.508);
+  --primary-foreground: oklch(0.208 0.042 265.755);
+  --secondary: oklch(0.279 0.041 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.551 0.027 264.364);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.208 0.042 265.755);
+  --sidebar-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.279 0.041 260.031);
+  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.551 0.027 264.364);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    background-image:
+      radial-gradient(circle at top left, rgba(92, 197, 255, 0.08), transparent 20%),
+      radial-gradient(circle at bottom right, rgba(167, 108, 255, 0.08), transparent 18%),
+      radial-gradient(ellipse at top, oklch(0.22 0.06 260) 0%, transparent 60%),
+      radial-gradient(ellipse at bottom right, oklch(0.2 0.05 270) 0%, transparent 50%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer utilities {
+  .text-gold { color: var(--gold); }
+  .bg-gold { background-color: var(--gold); }
+  .border-gold { border-color: var(--gold); }
+  .text-gradient-gold {
+    background: linear-gradient(135deg, oklch(0.85 0.14 85), oklch(0.7 0.15 70));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .surface-card {
+    background: linear-gradient(180deg, oklch(0.16 0.09 265 / 0.96), oklch(0.10 0.06 265 / 0.92));
+    border: 1px solid rgba(144, 100, 255, 0.22);
+    box-shadow: 0 32px 120px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(20px);
+  }
+  .gamer-card {
+    background: linear-gradient(180deg, rgba(12, 18, 48, 0.95), rgba(10, 14, 40, 0.88));
+    border: 1px solid rgba(92, 197, 255, 0.28);
+    box-shadow: inset 0 0 0 1px rgba(92, 197, 255, 0.12);
+  }
+  .neon-panel {
+    background: rgba(8, 12, 32, 0.95);
+    border: 1px solid rgba(92, 197, 255, 0.25);
+    box-shadow: inset 0 0 0 1px rgba(92, 197, 255, 0.08), 0 0 60px rgba(92, 197, 255, 0.08);
+  }
+  .neon-border {
+    border: 1px solid rgba(144, 100, 255, 0.45);
+    box-shadow: 0 0 50px rgba(92, 197, 255, 0.12), inset 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+  .glow-button {
+    box-shadow: 0 0 40px rgba(92, 197, 255, 0.22), inset 0 0 1px rgba(255, 255, 255, 0.12);
+  }
+  .hero-glow {
+    background: radial-gradient(circle at top right, rgba(92, 197, 255, 0.28), transparent 30%), radial-gradient(circle at bottom left, rgba(230, 180, 100, 0.16), transparent 20%);
+  }
+  .text-neon {
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(92, 197, 255, 0.2), 0 0 30px rgba(167, 108, 255, 0.15);
+  }
+  .gold-glow {
+    box-shadow: 0 0 60px -8px oklch(0.90 0.22 85 / 0.65), 0 0 100px rgba(92, 197, 255, 0.12);
+  }
+  .neon-pulse {
+    animation: pulse-neon 2.8s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse-neon {
+  0%, 100% { opacity: 0.88; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(230, 180, 100, 0.3), 0 0 40px rgba(92, 197, 255, 0.1);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(230, 180, 100, 0.5), 0 0 80px rgba(92, 197, 255, 0.2);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes float-up {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-down {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scan-line {
+  0%, 100% { transform: translateY(-100%); }
+  50% { transform: translateY(100%); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes neon-flicker {
+  0%, 18%, 22%, 25%, 54%, 56%, 100% { 
+    text-shadow: 0 0 20px rgba(92, 197, 255, 0.5), 0 0 30px rgba(230, 180, 100, 0.3);
+  }
+  20%, 24%, 55% { 
+    text-shadow: 0 0 40px rgba(92, 197, 255, 0.8), 0 0 60px rgba(230, 180, 100, 0.5);
+  }
+}
+
+/* Football loader animations */
+@keyframes boot-kick {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-25deg); }
+  35% { transform: rotate(15deg); }
+}
+@keyframes ball-arc {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(20px, -40px); }
+  40% { transform: translate(80px, -70px); }
+  60% { transform: translate(140px, -50px); }
+  80% { transform: translate(180px, -10px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes ball-spin { to { transform: rotate(720deg); } }
+@keyframes shadow-pulse {
+  0%, 100% { transform: scaleX(1); opacity: 0.6; }
+  40% { transform: scaleX(0.3); opacity: 0.2; }
+}
+
+.boot-kick { animation: boot-kick 1.6s ease-in-out infinite; }
+.ball-arc { animation: ball-arc 1.6s ease-in-out infinite; }
+.ball-spin { animation: ball-spin 1.6s linear infinite; }
+.shadow-pulse { animation: shadow-pulse 1.6s ease-in-out infinite; }
+
+/* Gaming hub animations */
+.animate-float { animation: float-up 3s ease-in-out infinite; }
+.animate-slide-in { animation: slide-in 0.6s ease-out forwards; }
+.animate-slide-in-down { animation: slide-in-down 0.6s ease-out forwards; }
+.animate-fade-in { animation: fade-in 0.8s ease-out forwards; }
+.animate-glow { animation: glow-pulse 3s ease-in-out infinite; }
+.animate-scan { animation: scan-line 3s linear infinite; }
+.animate-shimmer { animation: shimmer 3s infinite; }
+.animate-neon-flicker { animation: neon-flicker 2.5s ease-in-out infinite; }
+
+/* Stagger animations */
+.animation-delay-1000 { animation-delay: 100ms; }
+.animation-delay-2000 { animation-delay: 200ms; }
+.animation-delay-3000 { animation-delay: 300ms; }
+.animation-delay-4000 { animation-delay: 400ms; }
+
+/* Utility for backdrop blur intensity */
+.backdrop-blur-sm { backdrop-filter: blur(4px); }
+.backdrop-blur-md { backdrop-filter: blur(12px); }
+.backdrop-blur-lg { backdrop-filter: blur(20px); }
+.backdrop-blur-xl { backdrop-filter: blur(40px); }
+

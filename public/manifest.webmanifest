@@ -1,0 +1,17 @@
+{
+  "name": "dlsMasters",
+  "short_name": "dlsMasters",
+  "description": "Compete in official DLS tournaments. Real prizes, fair matches, professional rankings — the home for competitive Dream League Soccer worldwide.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a1a",
+  "theme_color": "#c9a84c",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
