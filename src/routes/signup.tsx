@@ -65,6 +65,26 @@ function SignupPage() {
       return;
     }
 
+    // Ensure a profiles row exists for the new user (create or update)
+    if (signupData.user) {
+      const { error: profileErr } = await supabase
+        .from("profiles")
+        .upsert(
+          {
+            id: signupData.user.id,
+            username: form.username,
+            full_name: form.full_name,
+            phone: form.phone,
+          },
+          { onConflict: "id" },
+        );
+      if (profileErr) {
+        setLoading(false);
+        toast.error(`Could not create profile: ${profileErr.message}`);
+        return;
+      }
+    }
+
     // Upload avatar if provided
     if (avatarFile && signupData.user) {
       const ext = avatarFile.name.split(".").pop() || "jpg";
