@@ -3,22 +3,15 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "env": {
-    "VITE_SUPABASE_URL": "@vite_supabase_url",
-    "VITE_SUPABASE_PUBLISHABLE_KEY": "@vite_supabase_publishable_key",
-    "VITE_SUPABASE_PROJECT_ID": "@vite_supabase_project_id"
-  },
   "framework": "vite",
-  "functions": {
-    "api/**/*.ts": {
-      "maxDuration": 30,
-      "memory": 1024
-    }
-  },
-  "regions": ["iad"],
+  "routes": [
+    { "src": "/(.*)", "dest": "/api/edge" }
+  ],
+  "regions": ["iad1"],
   "git": {
     "deploymentEnabled": {
       "main": true
     }
   }
 }
+

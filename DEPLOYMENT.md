@@ -101,6 +101,46 @@ vercel --prod
 6. Set environment variables (see next section)
 7. Click **Deploy**
 
+---
+
+## Cloudflare Workers (Recommended for SSR build)
+
+This project is built to run as an SSR Cloudflare Worker. If you prefer Cloudflare's runtime (recommended for the current build output), follow these steps.
+
+1. Build the project locally:
+
+```bash
+npm install
+npm run build
+```
+
+2. Install or use Wrangler v3 (you can use `npx` without installing globally):
+
+```bash
+# login (opens browser)
+npx wrangler@3 login
+```
+
+3. Add secrets (enter values when prompted):
+
+```bash
+npx wrangler@3 secret put VITE_SUPABASE_URL
+npx wrangler@3 secret put VITE_SUPABASE_PUBLISHABLE_KEY
+npx wrangler@3 secret put VITE_SUPABASE_PROJECT_ID
+```
+
+4. Publish the built worker (wrangler.jsonc points to `dist/server/server.js`):
+
+```bash
+npx wrangler@3 publish --name tanstack-start-app
+```
+
+Notes:
+- If you want to preview locally you can run `npx wrangler@3 dev`.
+- If `npm run build` fails locally, fix build issues (often PostCSS/Tailwind config) before publishing.
+- The worker bundle imports its server assets from `dist/server/assets` so ensure `dist/` is up-to-date before publishing.
+
+
 ### Step 3: Configure Environment Variables
 
 In Vercel Dashboard → Project Settings → Environment Variables:

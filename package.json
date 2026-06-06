@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "vite build && node ./scripts/copy-dist-client.cjs",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
+    "deploy:wrangler": "npx wrangler@3 publish --name tanstack-start-app",
+    "deploy:vercel": "npx vercel --prod --confirm",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
