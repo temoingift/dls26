@@ -7,6 +7,9 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import { VitePWA } from "vite-plugin-pwa";
 
+// Disable PWA on production/Vercel to prevent cached error pages
+const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL;
+
 // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
 // @cloudflare/vite-plugin builds from this — wrangler.jsonc main alone is insufficient.
 export default defineConfig({
@@ -14,7 +17,7 @@ export default defineConfig({
     server: { entry: "server" },
   },
   plugins: [
-    VitePWA({
+    ...(isProduction ? [] : [VitePWA({
       registerType: "autoUpdate",
       injectRegister: null,
       filename: "sw.js",
@@ -52,6 +55,6 @@ export default defineConfig({
           },
         ],
       },
-    }),
+    })]),
   ],
 });
