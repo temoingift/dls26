@@ -99,8 +99,12 @@ function SignupPage() {
     }
 
     setLoading(false);
-    toast.success("Welcome to DLS Gamers Hub!");
-    navigate({ to: "/dashboard" });
+    if (signupData.session) {
+      toast.success("Welcome to DLS Gamers Hub!");
+      navigate({ to: "/dashboard" });
+    } else {
+      toast.success("Check your email for a confirmation link to activate your account.");
+    }
   };
 
   return (

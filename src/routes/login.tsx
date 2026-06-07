@@ -21,12 +21,23 @@ function LoginPage() {
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) {
-      toast.error(error.message);
+      const msg = String(error.message || "").toLowerCase();
+      if (msg.includes("confirm") || msg.includes("verify") || msg.includes("verified")) {
+        toast.error("Email not confirmed. Check your inbox for a confirmation link.");
+        return;
+      }
+      toast.error(error.message || "Login failed");
       return;
     }
+
+    if (!data?.session) {
+      toast.error("Login did not return a session. If you recently signed up, please confirm your email first.");
+      return;
+    }
+
     toast.success("Welcome back!");
     navigate({ to: "/dashboard" });
   };
