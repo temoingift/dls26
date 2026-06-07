@@ -20,7 +20,12 @@ function shouldSkip(): boolean {
     host === "lovableproject-dev.com" ||
     host.endsWith(".lovableproject-dev.com") ||
     host === "beta.lovable.dev" ||
-    host.endsWith(".beta.lovable.dev")
+    host.endsWith(".beta.lovable.dev") ||
+    // Skip registering on Vercel domains to avoid stale service-worker cached pages
+    host === "vercel.app" ||
+    host.endsWith(".vercel.app") ||
+    // Skip older Now domains if present
+    host.endsWith(".now.sh")
   ) {
     return true;
   }
