@@ -22,6 +22,13 @@ function createSupabaseClient() {
       getSession: async () => ({ data: { session: null } }),
       // client-side methods may be called in browser; return a harmless rejection/object
       signInWithPassword: async () => ({ error: { message: 'Supabase not configured' } }),
+      onAuthStateChange: (_callback: any) => ({
+        data: {
+          subscription: {
+            unsubscribe: () => {},
+          },
+        },
+      }),
     };
 
     // Minimal query builder that supports chaining used in the codebase: select().eq().order().limit().then(cb)
