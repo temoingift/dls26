@@ -13,13 +13,45 @@ export const Route = createFileRoute("/_authenticated/watch/$code")({
 
 type Match = {
   id: string;
-  host_id: string;
+  host_id?: string;
   join_code: string;
   home_player: string;
   away_player: string;
-  home_score: number;
-  away_score: number;
+  home_score?: number | string;
+  away_score?: number | string;
   status: "live" | "ended";
+  // Optional local preview support
+  src?: string;
+  isStatic?: boolean;
+  isAudio?: boolean;
+};
+
+// Local static streams (use sanitized filenames placed in `public/assets`)
+const staticMatches: Record<string, Match> = {
+  ARGFR: {
+    id: "static-argfr",
+    join_code: "ARGFR",
+    home_player: "Argentina",
+    away_player: "France",
+    home_score: 0,
+    away_score: 0,
+    status: "live",
+    src: "/assets/argfr.mp3",
+    isStatic: true,
+    isAudio: true,
+  },
+  PHANT: {
+    id: "static-phant",
+    join_code: "PHANT",
+    home_player: "FC PHANTOM WARRIOR",
+    away_player: "The Toughest Opponent",
+    home_score: 0,
+    away_score: 0,
+    status: "live",
+    src: "/assets/phantom.mp3",
+    isStatic: true,
+    isAudio: true,
+  },
 };
 
 function WatchMatch() {
@@ -40,6 +72,10 @@ function WatchMatch() {
       .maybeSingle()
       .then(({ data }) => {
         if (active && data) setMatch(data as Match);
+        else {
+          const sm = staticMatches[code?.toUpperCase() ?? ""];
+          if (active && sm) setMatch(sm);
+        }
       });
     return () => {
       active = false;
@@ -48,7 +84,7 @@ function WatchMatch() {
 
   // realtime score updates
   useEffect(() => {
-    if (!match) return;
+    if (!match || match.isStatic) return;
     const ch = supabase
       .channel(`match-${match.id}`)
       .on(
@@ -64,7 +100,7 @@ function WatchMatch() {
 
   // WebRTC viewer connection
   useEffect(() => {
-    if (!match || !user || match.status !== "live") return;
+    if (!match || match.isStatic || !user || match.status !== "live") return;
     const pc = new RTCPeerConnection({ iceServers: ICE_SERVERS });
     pcRef.current = pc;
 
@@ -175,7 +211,8 @@ function WatchMatch() {
         <div>
           <p className="flex items-center gap-2 text-xs uppercase tracking-widest text-gold">
             <Radio className="h-3 w-3 animate-pulse" />
-            {match.status === "live" ? "Live" : "Ended"} · {connState}
+            {match.status === "live" ? "Live" : "Ended"}
+            {match.isStatic ? "" : ` · ${connState}`}
           </p>
           <h1 className="font-display text-3xl font-bold">
             {match.home_player} <span className="text-muted-foreground">vs</span> {match.away_player}
@@ -201,7 +238,11 @@ function WatchMatch() {
       </div>
       <div className="grid gap-4 lg:grid-cols-3">
         <div className="surface-card overflow-hidden rounded-xl lg:col-span-2">
-          <video ref={videoRef} autoPlay playsInline controls className="w-full bg-black" />
+          {match.isAudio ? (
+            <audio controls src={match.src} autoPlay className="w-full" />
+          ) : (
+            <video ref={videoRef} autoPlay playsInline controls className="w-full bg-black" />
+          )}
         </div>
         <LiveChat matchId={match.id} />
       </div>

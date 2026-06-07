@@ -15,6 +15,26 @@ function WatchIndex() {
   const [code, setCode] = useState("");
   const navigate = useNavigate();
 
+  // Static local streams (falls back when no live matches from the backend).
+  // To enable these, copy your MP3 files into `public/assets` with the
+  // filenames `argfr.mp3` and `phantom.mp3` (see instructions after patch).
+  const staticStreams = [
+    {
+      id: "static-argfr",
+      join_code: "ARGFR",
+      home_player: "Argentina",
+      away_player: "France",
+      isStatic: true,
+    },
+    {
+      id: "static-phant",
+      join_code: "PHANT",
+      home_player: "FC PHANTOM WARRIOR",
+      away_player: "The Toughest Opponent",
+      isStatic: true,
+    },
+  ];
+
   const { data: liveMatches } = useQuery({
     queryKey: ["live-matches"],
     queryFn: async () => {
@@ -67,31 +87,45 @@ function WatchIndex() {
         </div>
       </div>
 
-      {liveMatches && liveMatches.length > 0 && (
-        <div>
-          <h2 className="mb-3 font-display text-xl font-bold">Currently Live</h2>
-          <div className="space-y-2">
-            {liveMatches.map((m) => (
-              <Link
-                key={m.id}
-                to="/watch/$code"
-                params={{ code: m.join_code }}
-                className="surface-card flex items-center justify-between rounded-lg p-4 transition-colors hover:border-gold/50"
-              >
-                <div className="flex items-center gap-3">
-                  <Radio className="h-4 w-4 animate-pulse text-destructive" />
-                  <span className="font-semibold">
-                    {m.home_player} <span className="text-muted-foreground">vs</span> {m.away_player}
-                  </span>
-                </div>
-                <span className="font-display text-lg text-gold">
-                  {m.home_score} - {m.away_score}
-                </span>
-              </Link>
-            ))}
+      {(() => {
+        const combined = [
+          ...(liveMatches || []),
+          ...staticStreams.filter((s) => !(liveMatches || []).some((l) => l.join_code === s.join_code)),
+        ];
+        if (combined.length === 0) return null;
+        return (
+          <div>
+            <h2 className="mb-3 font-display text-xl font-bold">Currently Live</h2>
+            <div className="space-y-2">
+              {combined.map((m: any) => (
+                <Link
+                  key={m.id}
+                  to="/watch/$code"
+                  params={{ code: m.join_code }}
+                  className="surface-card flex items-center justify-between rounded-lg p-4 transition-colors hover:border-gold/50"
+                >
+                  <div className="flex items-center gap-3">
+                    <Radio className="h-4 w-4 animate-pulse text-destructive" />
+                    <span className="font-semibold">
+                      {m.home_player} <span className="text-muted-foreground">vs</span> {m.away_player}
+                    </span>
+                  </div>
+                  {m.isStatic ? (
+                    <span className="inline-flex items-center gap-2 rounded-full bg-red-600 px-3 py-1 text-xs font-semibold text-white">
+                      <span className="h-2 w-2 rounded-full bg-white animate-pulse" />
+                      LIVE
+                    </span>
+                  ) : (
+                    <span className="font-display text-lg text-gold">
+                      {m.home_score} - {m.away_score}
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </div>
   );
 }
