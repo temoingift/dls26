@@ -2,10 +2,23 @@
 import { createMiddleware } from '@tanstack/react-start'
 import { supabase } from './client'
 
+// Read the same env resolution as the client so we can short-circuit safely
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+const SUPABASE_PUBLISHABLE_KEY =
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY;
+
 // Must be registered as a global `functionMiddleware` in `src/start.ts`; otherwise
 // the browser never attaches the bearer token to serverFn RPCs.
 export const attachSupabaseAuth = createMiddleware({ type: 'function' }).client(
   async ({ next }) => {
+    // If Supabase isn't configured, skip calling the client to avoid throwing
+    if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+      console.warn(
+        '[Supabase] skipping auth-attacher: missing SUPABASE_URL or SUPABASE_PUBLISHABLE_KEY',
+      )
+      return next()
+    }
+
     const { data } = await supabase.auth.getSession()
     const token = data.session?.access_token
     return next({
